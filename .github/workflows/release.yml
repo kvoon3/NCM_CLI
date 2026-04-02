@@ -39,13 +39,15 @@ jobs:
           targets: ${{ matrix.target }}
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }}
+        run: |
+          cargo build --release --target ${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/ncm${{ matrix.ext }} ncm-${{ matrix.artifact }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: target/${{ matrix.target }}/release/ncm${{ matrix.ext }}
+          path: ncm-${{ matrix.artifact }}
 
   release:
     needs: build
@@ -86,9 +88,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/ncm-macos-aarch64/ncm
-            artifacts/ncm-macos-x86_64/ncm
-            artifacts/ncm-windows-x86_64/ncm.exe
-            artifacts/ncm-linux-x86_64/ncm
+            artifacts/ncm-macos-aarch64/ncm-macos-aarch64
+            artifacts/ncm-macos-x86_64/ncm-macos-x86_64
+            artifacts/ncm-windows-x86_64/ncm-windows-x86_64.exe
+            artifacts/ncm-linux-x86_64/ncm-linux-x86_64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
