@@ -52,16 +52,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download all artifacts
+      - name: Download ncm-macos-aarch64
         uses: actions/download-artifact@v4
+        with:
+          name: ncm-macos-aarch64
+          path: artifacts/ncm-macos-aarch64
+
+      - name: Download ncm-macos-x86_64
+        uses: actions/download-artifact@v4
+        with:
+          name: ncm-macos-x86_64
+          path: artifacts/ncm-macos-x86_64
+
+      - name: Download ncm-windows-x86_64
+        uses: actions/download-artifact@v4
+        with:
+          name: ncm-windows-x86_64
+          path: artifacts/ncm-windows-x86_64
+
+      - name: Download ncm-linux-x86_64
+        uses: actions/download-artifact@v4
+        with:
+          name: ncm-linux-x86_64
+          path: artifacts/ncm-linux-x86_64
+
+      - name: Make executables
+        run: |
+          chmod +x artifacts/ncm-macos-aarch64/ncm
+          chmod +x artifacts/ncm-macos-x86_64/ncm
+          chmod +x artifacts/ncm-linux-x86_64/ncm
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
-            ncm-macos-aarch64/ncm
-            ncm-macos-x86_64/ncm
-            ncm-windows-x86_64/ncm.exe
-            ncm-linux-x86_64/ncm
+            artifacts/ncm-macos-aarch64/ncm
+            artifacts/ncm-macos-x86_64/ncm
+            artifacts/ncm-windows-x86_64/ncm.exe
+            artifacts/ncm-linux-x86_64/ncm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
