@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: target/${{ matrix.target }}/release/ncm
+          path: target/${{ matrix.target }}/release/ncm{{ matrix.os == 'windows-latest' && '.exe' || '' }}
 
   release:
     needs: build
@@ -57,7 +57,7 @@ jobs:
         run: |
           mv artifacts/macos-aarch64/ncm ncm-macos-aarch64
           mv artifacts/macos-x86_64/ncm ncm-macos-x86_64
-          mv artifacts/windows-x86_64/ncm ncm-windows-x86_64.exe
+          mv artifacts/windows-x86_64/ncm.exe ncm-windows-x86_64.exe
           mv artifacts/linux-x86_64/ncm ncm-linux-x86_64
           chmod +x ncm-macos-aarch64 ncm-macos-x86_64 ncm-linux-x86_64
 
