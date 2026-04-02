@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: target/${{ matrix.target }}/release/ncm{{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          path: target/${{ matrix.target }}/release/ncm${{ matrix.os == 'windows-latest' && '.exe' || '' }}
 
   release:
     needs: build
